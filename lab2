@@ -1,0 +1,110 @@
+#include <iostream>
+
+using namespace std;
+
+// Задание 11, структура Государство
+struct Gosudarstvo
+{
+	char Country[255];
+	char Capital[255];
+	char OfficialLangueaga[255];
+	int Population;
+	int Area;
+	char CurencyUnit[255];
+	char StateSystem[255];
+	char HeadOfState[255];
+};
+
+Gosudarstvo* AddStruct(Gosudarstvo* Obj, const int amount);
+void setData(Gosudarstvo* Obj, const int amount);
+void showData(const Gosudarstvo* Obj, const int amount);
+
+int main()
+{
+	setlocale(LC_ALL, "rus");
+
+	Gosudarstvo* OurGosudarstvo = 0;
+	int gosudarstvoAmount = 0;
+	int YesOrNot = 0; //  продолжить или остановить ввод данных
+
+	do
+	{
+		OurGosudarstvo = AddStruct(OurGosudarstvo, gosudarstvoAmount);
+		setData(OurGosudarstvo, gosudarstvoAmount);
+
+		gosudarstvoAmount++;
+
+		cout << "Продолжить ввод данных (1 - да, 0 - нет): ";
+		cin >> YesOrNot;
+		cin.get();
+	} while (YesOrNot != 0);
+
+	showData(OurGosudarstvo, gosudarstvoAmount);
+
+	delete[] OurGosudarstvo;
+	return 0;
+}
+
+Gosudarstvo* AddStruct(Gosudarstvo* Obj, const int amount)
+{
+	if (amount == 0)
+	{
+		Obj = new Gosudarstvo[amount + 1]; // выделение памяти для первой структуры
+	}
+	else
+	{
+		Gosudarstvo* tempObj = new Gosudarstvo[amount + 1];
+
+		for (int i = 0; i < amount; i++)
+		{
+			tempObj[i] = Obj[i]; // копируем во временный объект
+		}
+		delete[] Obj;
+
+		Obj = tempObj;
+	}
+	return Obj;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void setData(Gosudarstvo* Obj, const int amount)
+{
+	cout << "Страна: ";
+	cin.getline(Obj[amount].Country, 255);
+
+	cout << "Столица: ";
+	cin.getline(Obj[amount].Capital, 255);
+
+	cout << "Язык: ";
+	cin.getline(Obj[amount].OfficialLangueaga, 255);
+
+
+	cout << "Популяция: ";
+	cin >> Obj[amount].Population;
+
+	cout << "Площадь: ";
+	cin >> Obj[amount].Area;
+
+	cout << "Денежная единица: ";
+	cin.getline(Obj[amount].CurencyUnit, 255);
+
+	cout << "Государственный строй: ";
+	cin.getline(Obj[amount].StateSystem, 255);
+
+	cout << "Глава государства: ";
+	cin.getline(Obj[amount].HeadOfState, 255);
+
+	cin.get();
+	cout << endl;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void showData(const Gosudarstvo* Obj, const int amount)
+{
+	system("cls");
+	cout << "№  " << "Страна\t" << "Столица\t" << "Язык\t" << "Популяция\t" << "Площадь\t" << "Днежная единица\t" << "Государственный строй\t" << "Глава государства\t" << endl;
+	cout << "========================================" << endl;
+	for (int i = 0; i < amount; i++)
+	{
+		cout << i + 1 << "  " << Obj[i].Country << '\t' << Obj[i].Capital << '\t' << Obj[i].OfficialLangueaga << Obj[i].Population << '\t' 
+			<< Obj[i].Area << '\t' << Obj[i].CurencyUnit << '\t' << Obj[i].StateSystem << '\t' << Obj[i].HeadOfState << '\t' << endl;
+	}
+}
